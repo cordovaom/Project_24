@@ -461,7 +461,7 @@ public class SQLConnection {
 		}
 	}
 	
-	//removes subcontractor  with given id
+	//removes customer  with given id
 	public static void removeCustomer(Integer id) {
 
 		try {
@@ -477,7 +477,7 @@ public class SQLConnection {
 		}
 	}
 	
-	//removes subcontractor  with given id
+	//removes Inventory  with given id
 	public static void removeInventory(Integer id) {
 
 		try {
@@ -493,7 +493,7 @@ public class SQLConnection {
 		}
 	}
 	
-	//removes subcontractor  with given identifiers
+	//removes license  with given identifiers
 	public static void removeLicense(String title, Integer contractor) {
 
 		try {
@@ -901,7 +901,7 @@ public class SQLConnection {
 					oldSalary = rs.getDouble("salary");
 				}
 					
-				query = "UPDATE subcontractors SET first_name=?, last_name=?, emial=?, phone_number, street, city, state, zip, salary WHERE contractor_id = ?";
+				query = "UPDATE subcontractors SET first_name=?, last_name=?, email=?, phone_number=?, street=?, city=?, state=?, zip_code=?, salary=? WHERE contractor_id = ?";
 
 				pst = connection.prepareStatement(query);
 					
@@ -922,28 +922,28 @@ public class SQLConnection {
 				else
 					pst.setString(4, phone);
 				if(street.equals(""))
-					pst.setString(6, oldStreet);
+					pst.setString(5, oldStreet);
 				else
-					pst.setString(6, street);
+					pst.setString(5, street);
 				if(city.equals(""))
-					pst.setString(7, oldCity);
+					pst.setString(6, oldCity);
 				else
-					pst.setString(7, city);
+					pst.setString(6, city);
 				if(state.equals(""))
-					pst.setString(8, oldState);
+					pst.setString(7, oldState);
 				else
-					pst.setString(8, state);
+					pst.setString(7, state);
 				if(zip == 0)
-					pst.setInt(9, oldZip);
+					pst.setInt(8, oldZip);
 				else
-					pst.setInt(9, zip);
+					pst.setInt(8, zip);
 				if(salary == 0)
-					pst.setDouble(10, oldSalary);
-				else pst.setDouble(10, salary);
+					pst.setDouble(9, oldSalary);
+				else pst.setDouble(9, salary);
 				
-				pst.setInt(11, id);
+				pst.setInt(10, id);
 
-				pst.executeUpdate(); // executeUpdate when the query modifies the DB		
+				pst.executeUpdate();		
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1479,21 +1479,5 @@ public class SQLConnection {
 				}
 				return output;
 			}
-	
-		
-//	public static void main(String[] args) {
-//
-//		openConnection();
-//		for(String x : displayInventory())
-//			System.out.println(x);
-//		
-//		addOfficeStaff(21000.00, "Tom", "Timothy",
-//				"blast", "703.111.1115", 100, "1111 Street Dr.", 
-//				"City", "ST", 12345, 9999);
-//		
-//		System.out.println(displayFieldStaffMember(100));
-//		
-//		removeEmployee(125);
-//		closeConnection();
-//	}
+
 }

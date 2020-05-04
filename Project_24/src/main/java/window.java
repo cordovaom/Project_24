@@ -2,27 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
-import java.util.ArrayList;
 
 public class window extends JFrame {
-	
-	private JPanel panel, mainMenu, employeeMenu, addEmployee, deleteEmployee, textDisplay, customerMenu, addCustomer, customerTextDisplay, deleteCustomer,inventoryMenu, addInventory, inventoryTextDisplay, deleteInventory, jobMenu, addJob, jobTextDisplay;
-	private JButton employees, customers, inventory, jobs;
+
+	private static final long serialVersionUID = 1L;
+	private JPanel panel, mainMenu, employeeMenu, addEmployee, deleteEmployee, textDisplay, customerMenu, addCustomer, customerTextDisplay, deleteCustomer,inventoryMenu, addInventory, inventoryTextDisplay, deleteInventory, jobMenu, addJob, jobTextDisplay, contractorMenu, addContractor, contractorTextDisplay, deleteContractor;
+	private JButton employees, customers, inventory, jobs, contractors;
 	private JButton addToDatabase, deleteFromDatabase, updateDatabase, displayRequest, returnToMain,returnToEmployeeMenuFromAdd, returnToEmployeeMenuFromDelete, enterAddEmployee, enterDeleteEmployee, confermRequest, returnFromTD;
 	private JButton addCustomerToDatabase, deleteCustomerFromDatabase, updateCustomerInDatabase, displayCustomerRequest, returnToMainFromCustomer, enterAddCustomer, returnToCustomerMenuFromAdd, customerConfermRequest, returnFromCTD, enterDeleteCustomer, returnToCustomerMenuFromDelete;
 	private JButton addInventoryToDatabase, deleteInventoryFromDatabase, updateInventoryInDatabase, displayInventoryRequest, returnToMainFromInventory, enterAddInventory, returnToInventoryMenuFromAdd, returnFromITD, enterDeleteInventory, returnToInventoryMenuFromDelete;
 	private JButton addJobToDatabase, updateJobInDatabase, displayJobRequest, returnToMainFromJob, enterAddJob, returnToJobMenuFromAdd, jobConfermRequest, returnFromJTD;
+	private JButton addContractorToDatabase, deleteContractorFromDatabase, updateContractorInDatabase, displayContractorRequest, returnToMainFromContractor, enterAddContractor, returnToContractorMenuFromAdd, contractorConfermRequest, enterDeleteContractor, returnToContractorMenuFromDelete, returnFromConTD;
 	private CardLayout cl;
 	private JLabel employeeLabel, firstName, lastName, salary, email, phone, address, manager, cof, deleteEmployeeMenu, employeeIdUpdate;
 	private JLabel customerLabel, customerFirstName, customerLastName, customerEmail, customerPhone, customerAddress, customerIdUpdate, deleteCustomerMenu;
 	private JLabel inventoryLabel, inventoryName, inventoryPrice, inventoryQuantity, inventoryExpiration, inventoryIdUpdate, deleteInventoryMenu;
 	private JLabel jobLabel, jobPrice, jobCrew, jobCustomer, jobContractor, jobIdUpdate;
+	private JLabel contractorLabel, contractorFirstName, contractorLastName, contractorSalary, contractorEmail, contractorPhone, contractorAddress, contractorIdUpdate, deleteContractorMenu;
 	private JTextField firstNameText, lastNameText, salaryText, emailText, phoneText1, phoneText2, phoneText3, addressText1, addressText2, addressText3, addressText4, managerText, cofText, requestID, deleteEmployeeMenuText, employeeIdUpdateText;
 	private JTextField customerFirstNameText, customerLastNameText, customerEmailText, customerPhoneText1, customerPhoneText2, customerPhoneText3, customerAddressText1, customerAddressText2, customerAddressText3, customerAddressText4, customerIdUpdateText, requestCustomerID, deleteCustomerMenuText;
 	private JTextField inventoryNameText, inventoryPriceText, inventoryQuantityText, inventoryExpirationText, inventoryIdUpdateText, deleteInventoryMenuText;
 	private JTextField jobPriceText, jobCrewText, jobCustomerText, jobContractorText, jobIdUpdateText, requestJobID;
-	private JTextArea outputLabel, customerOutputLabel, inventoryOutputLabel, jobOutputLabel;
-	private JScrollPane scroll, customerScroll, inventoryScroll, jobScroll;
+	private JTextField contractorFirstNameText, contractorLastNameText, contractorSalaryText, contractorEmailText, contractorPhoneText1, contractorPhoneText2, contractorPhoneText3, contractorAddressText1, contractorAddressText2, contractorAddressText3, contractorAddressText4, contractorIdUpdateText, requestContractorID, deleteContractorMenuText;
+	private JTextArea outputLabel, customerOutputLabel, inventoryOutputLabel, jobOutputLabel, contractorOutputLabel;
+	private JScrollPane scroll, customerScroll, inventoryScroll, jobScroll, contractorScroll;
 	private String[] employeeTypes = {"Select One","Field Staff", "Office Staff", "Mechanics"};
 	private JComboBox<String> employeeCB;          
 	private boolean update;
@@ -55,10 +58,14 @@ public class window extends JFrame {
 		jobs = new JButton("Jobs");
 		jobs.setBounds(20, 320, 100, 30);
 		
+		contractors = new JButton("Subcontractors");
+		contractors.setBounds(220, 20, 130, 30);
+		
 		mainMenu.add(employees);
 		mainMenu.add(customers);
 		mainMenu.add(inventory);
 		mainMenu.add(jobs);
+		mainMenu.add(contractors);
 
 //---------------------------------------------------------------
 		employeeLabel = new JLabel("Employees");
@@ -638,6 +645,173 @@ public class window extends JFrame {
 
 //---------------------------------------------------------------
 		
+		contractorLabel = new JLabel("contractors");
+		contractorLabel.setBounds(225, 10, 250, 50);
+		
+		contractorMenu =new JPanel();
+		contractorMenu.setLayout(null);
+		
+		addContractorToDatabase = new JButton("Add");
+		addContractorToDatabase.setBounds(20, 80, 100, 30);
+		
+		deleteContractorFromDatabase = new JButton("Remove");
+		deleteContractorFromDatabase.setBounds(20, 160, 100, 30);
+		
+		updateContractorInDatabase = new JButton("Update");
+		updateContractorInDatabase.setBounds(20, 240, 100, 30);
+		
+		displayContractorRequest = new JButton("Search");
+		displayContractorRequest.setBounds(20, 320, 100, 30);
+
+		returnToMainFromContractor = new JButton("Back");
+		returnToMainFromContractor.setBounds(370, 320, 100, 30);
+		
+		contractorMenu.add(contractorLabel);
+		contractorMenu.add(addContractorToDatabase);
+		contractorMenu.add(deleteContractorFromDatabase);
+		contractorMenu.add(updateContractorInDatabase);
+		contractorMenu.add(displayContractorRequest);
+		contractorMenu.add(returnToMainFromContractor);
+//--------------------------------------------------------------
+		addContractor =new JPanel();
+		addContractor.setLayout(null);
+		
+		contractorFirstName = new JLabel("First Name");
+		contractorFirstName.setBounds(20, 20, 100, 30);
+		
+		contractorLastName = new JLabel("Last Name");
+		contractorLastName.setBounds(20, 60, 100, 30);
+		
+		contractorSalary = new JLabel("Salary");
+		contractorSalary.setBounds(20, 100, 100, 30);
+		
+		contractorEmail = new JLabel("Email");
+		contractorEmail.setBounds(20, 140, 100, 30);
+		
+		contractorPhone = new JLabel("Phone Number");
+		contractorPhone.setBounds(20, 180, 100, 30);
+		
+		contractorAddress = new JLabel("Address");
+		contractorAddress.setBounds(20, 220, 100, 30);
+
+		contractorIdUpdate = new JLabel("contractor ID");
+		contractorIdUpdate.setBounds(20, 260, 100, 30);
+		contractorIdUpdate.setVisible(false);
+		
+		
+		contractorFirstNameText = new JTextField(20);
+		contractorFirstNameText.setBounds(120, 20, 200, 30);
+		
+		contractorLastNameText = new JTextField(20);
+		contractorLastNameText.setBounds(120, 60, 200, 30);
+		
+		contractorSalaryText = new JTextField(20);
+		contractorSalaryText.setBounds(120, 100, 200, 30);
+		
+		contractorEmailText = new JTextField(20);
+		contractorEmailText.setBounds(120, 140, 200, 30);
+		
+		contractorPhoneText1 = new JTextField(20);
+		contractorPhoneText1.setBounds(120, 180, 63, 30);
+		
+		contractorPhoneText2 = new JTextField(20);
+		contractorPhoneText2.setBounds(187, 180, 66, 30);
+		
+		contractorPhoneText3 = new JTextField(20);
+		contractorPhoneText3.setBounds(254, 180, 66, 30);
+		
+		contractorAddressText1 = new JTextField(20);
+		contractorAddressText1.setBounds(120, 220, 100, 30);
+		
+		contractorAddressText2 = new JTextField(20);
+		contractorAddressText2.setBounds(225, 220, 70, 30);
+		
+		contractorAddressText3 = new JTextField(20);
+		contractorAddressText3.setBounds(300, 220, 30, 30);
+		
+		contractorAddressText4 = new JTextField(20);
+		contractorAddressText4.setBounds(335, 220, 50, 30);
+		
+		contractorIdUpdateText = new JTextField(20);
+		contractorIdUpdateText.setBounds(120, 260, 200, 30);
+		contractorIdUpdateText.setVisible(false);
+		
+		enterAddContractor = new JButton("Enter");
+		enterAddContractor.setBounds(395, 270, 100, 30);
+
+		returnToContractorMenuFromAdd = new JButton("Back");
+		returnToContractorMenuFromAdd.setBounds(395, 320, 100, 30);
+		
+		addContractor.add(contractorFirstName);
+		addContractor.add(contractorLastName);
+		addContractor.add(contractorSalary);
+		addContractor.add(contractorEmail);
+		addContractor.add(contractorPhone);
+		addContractor.add(contractorAddress);
+		addContractor.add(contractorIdUpdate);
+		
+		addContractor.add(contractorFirstNameText);
+		addContractor.add(contractorLastNameText);
+		addContractor.add(contractorSalaryText);
+		addContractor.add(contractorEmailText);
+		addContractor.add(contractorPhoneText1);
+		addContractor.add(contractorPhoneText2);
+		addContractor.add(contractorPhoneText3);
+		addContractor.add(contractorAddressText1);
+		addContractor.add(contractorAddressText2);
+		addContractor.add(contractorAddressText3);
+		addContractor.add(contractorAddressText4);
+		addContractor.add(contractorIdUpdateText);
+		
+		addContractor.add(enterAddContractor);
+		addContractor.add(returnToContractorMenuFromAdd);
+//--------------------------------------------------------------
+		contractorTextDisplay =new JPanel();		
+		contractorTextDisplay.setLayout(null);
+		
+		contractorOutputLabel = new JTextArea("");
+		contractorOutputLabel.setLineWrap(true);
+		contractorOutputLabel.setWrapStyleWord(true);
+		contractorScroll = new JScrollPane(contractorOutputLabel);
+		contractorScroll.setBounds(10, 10, 480, 275);
+		
+		requestContractorID = new JTextField(20);
+		requestContractorID.setBounds(40, 320, 200, 30);
+		
+		contractorConfermRequest= new JButton("Search");
+		contractorConfermRequest.setBounds(250, 320, 100, 30);
+		
+		returnFromConTD = new JButton("Back");
+		returnFromConTD.setBounds(395, 320, 100, 30);
+		
+		contractorTextDisplay.add(contractorScroll);
+		contractorTextDisplay.add(returnFromConTD);
+		contractorTextDisplay.add(requestContractorID);
+		contractorTextDisplay.add(contractorConfermRequest);
+
+//---------------------------------------------------------------
+		
+		deleteContractor =new JPanel();
+		deleteContractor.setLayout(null);
+			
+		deleteContractorMenu = new JLabel("Contractor Id: ");
+		deleteContractorMenu.setBounds(50, 100, 100, 30);
+
+		deleteContractorMenuText = new JTextField(20);
+		deleteContractorMenuText.setBounds(125, 100, 200, 30);
+		
+		enterDeleteContractor = new JButton("Remove");
+		enterDeleteContractor.setBounds(330, 100, 100, 29);
+
+		returnToContractorMenuFromDelete = new JButton("Back");
+		returnToContractorMenuFromDelete.setBounds(395, 320, 100, 30);
+		
+		deleteContractor.add(deleteContractorMenu);
+		deleteContractor.add(deleteContractorMenuText);
+		deleteContractor.add(enterDeleteContractor);
+		deleteContractor.add(returnToContractorMenuFromDelete);
+//--------------------------------------------------------------
+		
 		panel.add(mainMenu, "MM");
 		panel.add(employeeMenu, "EM");
 		panel.add(addEmployee, "AE");
@@ -654,6 +828,10 @@ public class window extends JFrame {
 		panel.add(jobMenu, "JM");
 		panel.add(addJob, "AJ");
 		panel.add(jobTextDisplay, "JTD");
+		panel.add(contractorMenu, "ConM");
+		panel.add(addContractor, "ACon");
+		panel.add(contractorTextDisplay, "ConTD");
+		panel.add(deleteContractor, "DCon");
 		
 		cl.show(panel, "MM");
 		
@@ -681,6 +859,11 @@ public class window extends JFrame {
 				cl.show(panel, "JM");
 			}});
 		
+		contractors.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "ConM");
+			}});
+		
 		addToDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					cl.show(panel, "AE");
@@ -702,6 +885,12 @@ public class window extends JFrame {
 		addJobToDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "AJ");
+				update = false;
+		}});
+		
+		addContractorToDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "ACon");
 				update = false;
 		}});
 		
@@ -728,6 +917,11 @@ public class window extends JFrame {
 				cl.show(panel, "JTD");
 		}});
 		
+		displayContractorRequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "ConTD");
+		}});
+		
 		deleteFromDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					cl.show(panel, "DE");
@@ -741,6 +935,11 @@ public class window extends JFrame {
 		deleteInventoryFromDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "DI");
+		}});
+		
+		deleteContractorFromDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "DCon");
 		}});
 		
 		updateDatabase.addActionListener(new ActionListener() {
@@ -773,6 +972,14 @@ public class window extends JFrame {
 				update=true;
 				jobIdUpdate.setVisible(true);
 				jobIdUpdateText.setVisible(true);
+		}});
+		
+		updateContractorInDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "ACon");
+				update=true;
+				contractorIdUpdate.setVisible(true);
+				contractorIdUpdateText.setVisible(true);
 		}});
 		
 		enterAddEmployee.addActionListener(new ActionListener() {
@@ -1041,6 +1248,76 @@ public class window extends JFrame {
 				}
 			}});
 		
+		enterAddContractor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!update) {
+					SQLConnection.addContractor(contractorFirstNameText.getText(), contractorLastNameText.getText(), contractorEmailText.getText(), contractorPhoneText1.getText()+"."+contractorPhoneText2.getText()+"."+contractorPhoneText3.getText(), contractorAddressText1.getText(), contractorAddressText2.getText(), contractorAddressText3.getText(), Integer.valueOf(contractorAddressText4.getText()), Double.valueOf(contractorSalaryText.getText()));
+
+					contractorFirstNameText.setText("");
+					contractorLastNameText.setText("");
+					contractorEmailText.setText("");
+					contractorPhoneText1.setText("");
+					contractorPhoneText2.setText("");
+					contractorPhoneText3.setText("");
+					contractorAddressText1.setText("");
+					contractorAddressText2.setText("");
+					contractorAddressText3.setText("");
+					contractorAddressText4.setText("");
+					contractorSalaryText.setText("");
+			
+					cl.show(panel, "ConM");
+				}else{
+					
+					String pn1 = contractorPhoneText1.getText();
+					String pn2 = contractorPhoneText2.getText();
+					String pn3 = contractorPhoneText3.getText();
+					String a4 = contractorAddressText4.getText();
+					String s = contractorSalaryText.getText();
+					String id = contractorIdUpdateText.getText();
+					String phoneNum="";
+					Integer zipCode=0, cId=0;
+					double sal;
+					
+					
+					if(pn1.equals("")|pn2.equals("")|pn3.equals(""))
+						phoneNum="";
+					else
+						phoneNum=pn1+"."+pn2+"."+pn3;
+					if(a4.equals(""))
+						zipCode = 0;
+					else 
+						zipCode = Integer.valueOf(a4);
+					if(s.equals(""))
+						sal = 0.0;
+					else 
+						sal = Double.valueOf(s);
+					if(id.equals(""))
+						cId = 0;
+					else 
+						cId = Integer.valueOf(id);
+
+					SQLConnection.updateContractor(cId, contractorFirstNameText.getText(), contractorLastNameText.getText(), contractorEmailText.getText(), phoneNum, contractorAddressText1.getText(), contractorAddressText2.getText(), contractorAddressText3.getText(), zipCode, sal);
+					
+
+					contractorFirstNameText.setText("");
+					contractorLastNameText.setText("");
+					contractorEmailText.setText("");
+					contractorPhoneText1.setText("");
+					contractorPhoneText2.setText("");
+					contractorPhoneText3.setText("");
+					contractorAddressText1.setText("");
+					contractorAddressText2.setText("");
+					contractorAddressText3.setText("");
+					contractorAddressText4.setText("");
+					contractorSalaryText.setText("");
+					contractorIdUpdateText.setText("");
+			
+					cl.show(panel, "ConM");
+					contractorIdUpdate.setVisible(false);
+					contractorIdUpdateText.setVisible(false);
+				}
+			}});
+		
 		enterDeleteEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -1074,6 +1351,16 @@ public class window extends JFrame {
 				
 			}});
 		
+		enterDeleteContractor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				SQLConnection.removeContractor(Integer.valueOf(deleteContractorMenuText.getText()));
+				
+				deleteContractorMenuText.setText("");
+			
+				cl.show(panel, "ConM");
+				
+			}});
 		
 		confermRequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1118,7 +1405,19 @@ public class window extends JFrame {
 					if(out.length()>0)
 						jobOutputLabel.setText(jobOutputLabel.getText() + "\n" + out);
 					
-				requestCustomerID.setText("");
+				requestJobID.setText("");
+			}});
+		
+		contractorConfermRequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String out="";
+				
+					if(requestContractorID.getText().length()>0)
+						out = SQLConnection.displaySubcontractor(Integer.parseInt(requestContractorID.getText()));
+					if(out.length()>0)
+						contractorOutputLabel.setText(contractorOutputLabel.getText() + "\n" + out);
+					
+				requestContractorID.setText("");
 			}});
 		
 		employeeCB.addActionListener(new ActionListener() {
@@ -1152,6 +1451,7 @@ public class window extends JFrame {
 		returnToMainFromCustomer.addActionListener(returnToMainMenu);
 		returnToMainFromInventory.addActionListener(returnToMainMenu);
 		returnToMainFromJob.addActionListener(returnToMainMenu);
+		returnToMainFromContractor.addActionListener(returnToMainMenu);
 		
 		ActionListener returnToEM = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1184,10 +1484,19 @@ public class window extends JFrame {
 		ActionListener returnToJM = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "JM");
-				//jobOutputLabel.setText("");
+				jobOutputLabel.setText("");
 			}};
 		returnToJobMenuFromAdd.addActionListener(returnToJM);
 		returnFromJTD.addActionListener(returnToJM);
+		
+		ActionListener returnToConM = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl.show(panel, "ConM");
+				//contractorOutputLabel.setText("");
+			}};
+		returnToContractorMenuFromAdd.addActionListener(returnToConM);
+		returnToContractorMenuFromDelete.addActionListener(returnToConM);
+		returnFromConTD.addActionListener(returnToConM);
 //-------------------------------------------------------------------------------------------------
 		
 		setState(JFrame.ICONIFIED);
